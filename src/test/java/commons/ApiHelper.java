@@ -12,27 +12,31 @@ public class ApiHelper {
     private Response response;
 
     private void setBaseUri() {
-        requestSpecification = given().baseUri("https://api.ratesapi.io/api");
+        requestSpecification = given().baseUri(System.getProperty("baseUri"));
     }
 
-    public void setResourcePath(String resourcePath) {
+    protected void setResourcePath(String resourcePath) {
         setBaseUri();
         requestSpecification.basePath(String.format("/%s", resourcePath));
     }
 
-    public void setParameter(String parameterName, String parameterValue) {
+    protected void setParameter(String parameterName, String parameterValue) {
         requestSpecification.param(parameterName, parameterValue);
     }
 
-    public void sendGetRequest() {
+    protected void sendGetRequest() {
         response = requestSpecification.get();
     }
 
-    public int getResponseStatusCode() {
+    protected int getResponseStatusCode() {
         return response.getStatusCode();
     }
 
-    public void validateResponseBodyElement(String element, Matcher<?> matcher) {
+    protected String getResponseBody() {
+        return response.getBody().asString();
+    }
+
+    protected void validateResponseBodyElement(String element, Matcher<?> matcher) {
         response.then().body(element, matcher);
     }
 }

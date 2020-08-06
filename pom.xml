@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>api-assessment</name>
-    
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

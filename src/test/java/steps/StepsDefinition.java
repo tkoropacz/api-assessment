@@ -7,7 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 public class StepsDefinition extends ApiHelper {
 
@@ -23,7 +23,7 @@ public class StepsDefinition extends ApiHelper {
 
     @And("with symbols parameter {string}")
     public void withSymbolsParameter(String symbolsValue) {
-        setParameter("base", symbolsValue);
+        setParameter("symbols", symbolsValue);
     }
 
     @When("user sends get request")
@@ -36,4 +36,18 @@ public class StepsDefinition extends ApiHelper {
         assertThat(responseStatusCode, equalTo(getResponseStatusCode()));
     }
 
+    @Then("response body should contain error message {string}")
+    public void responseBodyShouldContain(String expectedString){
+        assertThat(getResponseBody(), containsString(expectedString));
+    }
+
+    @And("base should be set to {string}")
+    public void baseShouldBeSetTo(String expectedBase){
+        validateResponseBodyElement("base", equalTo(expectedBase));
+    }
+
+    @And("rates count should be {int}")
+    public void ratesCountShouldBe(int expectedRatesCount){
+        validateResponseBodyElement("rates.size()", equalTo(expectedRatesCount));
+    }
 }
